@@ -1,9 +1,48 @@
 <html>
     <head>
 <title>Embedded Hubspot Form</title>
+
+
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/44617446.js"></script>
 <!-- End of HubSpot Embed Code -->
+
+
+<script>
+!function(a,b){a("squatch","https://fast.ssqt.io/squatch-js@2",b)}(function(a,b,c){var d,e,f;c["_"+a]={},c[a]={},c[a].ready=function(b){c["_" + a].ready =  c["_" + a].ready || [];c["_" + a].ready.push(b);},e=document.createElement("script"),e.async=1,e.src=b,f=document.getElementsByTagName("script")[0],f.parentNode.insertBefore(e,f)},this);
+
+window.squatchTenant = "test_acbdw3cgv8n5m";
+
+  // 1. When squatch.js is ready, run the following function.
+  squatch.ready(function () {
+    // 2. Make the request to retrieve referral information from the dropped cookie
+    //  Cookies are dropped after a user clicks on a sharelink
+    //  This cookie includes important referral information such as the referrer's referral code
+    //  To read more on our referral cookies see https://docs.saasquatch.com/developer/squatchjs/cookies/
+    squatch
+    .api()
+    .squatchReferralCookie()
+    .then(function (response) {
+      // 3. Adding a short wait helps to insure that the value is properly set in the form
+      const waitForElement = setInterval(function () {
+
+        // 4. Retrieve the element you want to auto-fill the referral code into from the DOM.
+        // With HubSpot forms, the only stable HTML element attribute is the name which maps to the field name
+        const el = document.getElementsByName("ssqt_referredby_code");
+
+        if (el.length) {
+          clearInterval(waitForElement);
+
+          // 5. Set the value of the form field to be the participants referral cookie
+          el[0].value = response.encodedCookie;
+        }
+      }, 100);
+    });
+  });
+
+</script>
+
+
     </head>
     <body>
 
